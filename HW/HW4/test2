@@ -1,0 +1,27 @@
+Xtrain=TrainPre(:,1:56);
+Xtest=TestPre(:,1:56);
+gamma=1e-7;
+alpha=0.001
+blocksize = 5000;
+
+Ntrain = size(Xtrain,1);    % number of training examples
+Ntest = size(Xtest,1);      % number of test examples
+numBlocks = ceil(Ntest/blocksize);
+
+pred = zeros(Ntest,1);
+
+for i=1:numBlocks
+    startIdx = (i-1)*blocksize + 1;
+    if i < numBlocks
+        endIdx = i*blocksize;
+    else
+        endIdx = Ntest;
+    end;
+    
+    X = [Xtrain; Xtest(startIdx:endIdx,:)];
+    dist = pdist(X);	  
+    dist = squareform(dist);
+    dist = dist(1:Ntrain,Ntrain+1:end);
+    K = exp(-gamma * dist.^2);
+    pred(startIdx:endIdx) = (alpha'*K)';
+end;

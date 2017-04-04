@@ -1,0 +1,21 @@
+setwd("/home/nan/Dropbox/CSE881/HW4")
+ONP<-read.csv('OnlineNewsPopularity.csv',header=T)
+ONP<-data.frame(ONP)
+ONP<-as.matrix(ONP)
+Pre<-ONP[,1:58]
+Tar<-ONP[,59]
+Tar=log(Tar)
+Len<-length(Tar)
+k<-c(1:35,38:58)
+Pre1<-Pre[,k]+0
+# mlr
+TrainPre<-Pre1[1:2000,]
+sTrainPre<-(Pre1-mean(Pre1))/sd(Pre1)
+TrainTar<-Tar[1:2000]
+TestPre<-Pre1[2001:length(Tar),]
+TestTar<-Tar[2001:length(Tar)]
+mlreg<-lm(TrainTar~TrainPre)
+TestPre<-as.matrix(data.frame(TestPre,as.matrix(rep(1,dim(TestPre)[1]))))
+w<-as.matrix(as.vector(coef(mlreg)))
+Pred<-TestPre%*%w
+cor(Pred,TestTar)

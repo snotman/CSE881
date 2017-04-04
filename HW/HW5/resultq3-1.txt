@@ -1,0 +1,347 @@
+result1
+
+>> clear
+>> A = load('spambase.data');
+>> N = size(A, 1);
+>> seed = 10; % seed for random number generator
+>> rng(seed); % for repeatability of your experiment
+>> A = A(randperm(N),:); % this will reshuffle the rows in matrix A
+>> 
+>> X=A(:,1:57);
+>> Y=A(:,58);
+>> %You need to compare the performance of the linear and non-linear support
+>> %vector machine classifiers on this data set using nested cross-validation.
+>> %Use k=10 for the outer loop (classifier evaluation) and k=5 for the inner
+>> %loop (model selection) of the nested cross-validation procedure
+>> N=length(A);
+>> indices = crossvalind('Kfold',N,10);%outer loop
+>> %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+>> %Linear
+>> %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+>> lambda = logspace(-4,3,11); % create a set of candidate lambda values
+>> CPER=0
+
+CPER =
+
+     0
+
+>> Lam=0
+
+Lam =
+
+     0
+
+>> for k=1:10
+    testID = (indices == k); %id of test data in kth round
+    trainID = ~testID; %id of train data in kth round
+    Xtrain = X(trainID,:);
+    Ytrain = Y(trainID);
+    Xtest = X(testID,:);
+    Ytest = Y(testID);
+    % tune the hyper-parameter lambda for linear SVM.
+    model = fitclinear(Xtrain, Ytrain, 'Kfold', 5, 'Learner', 'svm', 'Lambda', lambda);
+    foldNumber = 3; % to examine the model created for the 3rd fold
+    model.Trained{foldNumber}
+    ce = kfoldLoss(model) % to examine the classification error for each lambda
+    bestLambda=lambda(ce==min(ce));
+    bestLambda=bestLambda(1);
+    SVMmodel = fitclinear(Xtrain, Ytrain, 'Learner', 'svm', 'Lambda', bestLambda);
+    pred = predict(SVMmodel, Xtest);
+    cp = classperf(Ytest);
+    classperf(cp,pred);
+    cp.DiagnosticTable % to show the confusion matrix
+    cp.ErrorRate % to show the classification error
+    CPER(k)=cp.ErrorRate;
+    Lam(k)=bestLambda;
+end   
+
+ans = 
+
+  ClassificationLinear
+      ResponseName: 'Y'
+        ClassNames: [0 1]
+    ScoreTransform: 'none'
+              Beta: [57x11 double]
+              Bias: [-0.8375 -0.8375 -0.8375 -0.8374 -0.8374 -0.8374 -0.8893 -0.8893 -1.1877 -1.1877 -1.1875]
+            Lambda: [1.0000e-04 5.0119e-04 0.0025 0.0126 0.0631 0.3162 1.5849 7.9433 39.8107 199.5262 1000]
+           Learner: 'svm'
+
+
+
+ce =
+
+    0.1297    0.1302    0.1299    0.1186    0.1183    0.1183    0.1623    0.2594    0.2763    0.2932    0.3277
+
+
+ans =
+
+   260    20
+    41   139
+
+
+ans =
+
+    0.1326
+
+
+ans = 
+
+  ClassificationLinear
+      ResponseName: 'Y'
+        ClassNames: [0 1]
+    ScoreTransform: 'none'
+              Beta: [57x11 double]
+              Bias: [-0.9580 -0.9580 -0.9580 -0.9580 -0.9580 -0.9580 -0.9588 -0.9592 -0.9647 -0.9647 -0.9653]
+            Lambda: [1.0000e-04 5.0119e-04 0.0025 0.0126 0.0631 0.3162 1.5849 7.9433 39.8107 199.5262 1000]
+           Learner: 'svm'
+
+
+
+ce =
+
+    0.1055    0.1055    0.1055    0.1055    0.1055    0.1290    0.1611    0.2594    0.2770    0.2859    0.3301
+
+
+ans =
+
+    98     2
+   185   175
+
+
+ans =
+
+    0.4065
+
+
+ans = 
+
+  ClassificationLinear
+      ResponseName: 'Y'
+        ClassNames: [0 1]
+    ScoreTransform: 'none'
+              Beta: [57x11 double]
+              Bias: [-0.9915 -0.9915 -0.9915 -0.9915 -0.9915 -0.9915 -0.9926 -0.9952 -0.9952 -0.9966 -0.9969]
+            Lambda: [1.0000e-04 5.0119e-04 0.0025 0.0126 0.0631 0.3162 1.5849 7.9433 39.8107 199.5262 1000]
+           Learner: 'svm'
+
+
+
+ce =
+
+    0.1111    0.1113    0.1113    0.1113    0.1113    0.1174    0.1475    0.2678    0.2702    0.3002    0.3282
+
+
+ans =
+
+   267    34
+    17   142
+
+
+ans =
+
+    0.1109
+
+
+ans = 
+
+  ClassificationLinear
+      ResponseName: 'Y'
+        ClassNames: [0 1]
+    ScoreTransform: 'none'
+              Beta: [57x11 double]
+              Bias: [-0.9748 -0.9748 -0.9748 -0.9748 -0.9748 -1.0715 -1.0715 -1.0715 -1.1765 -1.1761 -1.1761]
+            Lambda: [1.0000e-04 5.0119e-04 0.0025 0.0126 0.0631 0.3162 1.5849 7.9433 39.8107 199.5262 1000]
+           Learner: 'svm'
+
+
+
+ce =
+
+    0.1227    0.1164    0.1164    0.1164    0.1164    0.1488    0.1355    0.2437    0.2796    0.2992    0.3197
+
+
+ans =
+
+   253    33
+    23   151
+
+
+ans =
+
+    0.1217
+
+
+ans = 
+
+  ClassificationLinear
+      ResponseName: 'Y'
+        ClassNames: [0 1]
+    ScoreTransform: 'none'
+              Beta: [57x11 double]
+              Bias: [-0.9603 -0.9603 -0.9603 -0.9603 -0.9603 -0.9603 -0.9603 -1.2323 -1.2323 -1.2319 -1.2318]
+            Lambda: [1.0000e-04 5.0119e-04 0.0025 0.0126 0.0631 0.3162 1.5849 7.9433 39.8107 199.5262 1000]
+           Learner: 'svm'
+
+
+
+ce =
+
+    0.1075    0.1079    0.1084    0.1082    0.1082    0.1135    0.1801    0.2463    0.2543    0.2968    0.3214
+
+
+ans =
+
+   255    20
+    18   167
+
+
+ans =
+
+    0.0826
+
+
+ans = 
+
+  ClassificationLinear
+      ResponseName: 'Y'
+        ClassNames: [0 1]
+    ScoreTransform: 'none'
+              Beta: [57x11 double]
+              Bias: [-0.9184 -0.9184 -0.9184 -0.9184 -0.9184 -0.9184 -0.9184 -1.2578 -1.1882 -1.1881 -1.1881]
+            Lambda: [1.0000e-04 5.0119e-04 0.0025 0.0126 0.0631 0.3162 1.5849 7.9433 39.8107 199.5262 1000]
+           Learner: 'svm'
+
+
+
+ce =
+
+    0.1246    0.1152    0.1152    0.1152    0.1157    0.1200    0.1497    0.2623    0.2760    0.3077    0.3236
+
+
+ans =
+
+   252    27
+    17   164
+
+
+ans =
+
+    0.0957
+
+
+ans = 
+
+  ClassificationLinear
+      ResponseName: 'Y'
+        ClassNames: [0 1]
+    ScoreTransform: 'none'
+              Beta: [57x11 double]
+              Bias: [-1.0121 -1.0121 -1.0121 -1.0121 -1.0121 -1.0121 -1.0121 -1.0133 -1.0133 -1.0144 -1.0146]
+            Lambda: [1.0000e-04 5.0119e-04 0.0025 0.0126 0.0631 0.3162 1.5849 7.9433 39.8107 199.5262 1000]
+           Learner: 'svm'
+
+
+
+ce =
+
+    0.0995    0.0993    0.0995    0.0995    0.0993    0.0993    0.0988    0.2666    0.2775    0.2965    0.3282
+
+
+ans =
+
+   251    88
+    19   102
+
+
+ans =
+
+    0.2326
+
+
+ans = 
+
+  ClassificationLinear
+      ResponseName: 'Y'
+        ClassNames: [0 1]
+    ScoreTransform: 'none'
+              Beta: [57x11 double]
+              Bias: [-0.9745 -0.9745 -0.9745 -0.9745 -0.9745 -0.9745 -0.9748 -0.9728 -1.1699 -1.1696 -1.1696]
+            Lambda: [1.0000e-04 5.0119e-04 0.0025 0.0126 0.0631 0.3162 1.5849 7.9433 39.8107 199.5262 1000]
+           Learner: 'svm'
+
+
+
+ce =
+
+    0.1263    0.1266    0.1258    0.1258    0.1263    0.1155    0.1145    0.2399    0.2761    0.3012    0.3249
+
+
+ans =
+
+   256    70
+    22   113
+
+
+ans =
+
+    0.1996
+
+
+ans = 
+
+  ClassificationLinear
+      ResponseName: 'Y'
+        ClassNames: [0 1]
+    ScoreTransform: 'none'
+              Beta: [57x11 double]
+              Bias: [-1.1932 -1.1932 -1.1932 -1.1932 -1.1932 -1.1737 -1.1737 -1.2166 -1.2166 -1.2165 -1.2164]
+            Lambda: [1.0000e-04 5.0119e-04 0.0025 0.0126 0.0631 0.3162 1.5849 7.9433 39.8107 199.5262 1000]
+           Learner: 'svm'
+
+
+
+ce =
+
+    0.1227    0.1212    0.1079    0.1038    0.1038    0.1106    0.1386    0.2671    0.2681    0.2997    0.3229
+
+
+ans =
+
+   258    52
+    17   133
+
+
+ans =
+
+    0.1500
+
+
+ans = 
+
+  ClassificationLinear
+      ResponseName: 'Y'
+        ClassNames: [0 1]
+    ScoreTransform: 'none'
+              Beta: [57x11 double]
+              Bias: [-1.0124 -1.0124 -1.0124 -1.0124 -1.0124 -1.0124 -1.0124 -1.2721 -1.2721 -1.2719 -1.0988]
+            Lambda: [1.0000e-04 5.0119e-04 0.0025 0.0126 0.0631 0.3162 1.5849 7.9433 39.8107 199.5262 1000]
+           Learner: 'svm'
+
+
+
+ce =
+
+    0.1072    0.1072    0.1072    0.1075    0.1072    0.1135    0.1690    0.2649    0.2780    0.3048    0.3328
+
+
+ans =
+
+   264    32
+    15   149
+
+
+ans =
+
+    0.1022
+
+>> 

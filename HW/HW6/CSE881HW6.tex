@@ -1,0 +1,206 @@
+\documentclass[11pt]{scrartcl}
+\usepackage[utf8]{inputenc}
+\usepackage{mathtools}
+\usepackage{amssymb}
+\usepackage{listings}
+\usepackage{bm}
+\usepackage{graphicx}
+\usepackage{xcolor}
+\usepackage{qtree}
+\lstset
+{ %Formatting for code in appendix
+	language=Matlab,
+	basicstyle=\footnotesize,
+	numbers=left,
+	stepnumber=1,
+	showstringspaces=true,
+	tabsize=1,
+	breaklines=true,
+	breakatwhitespace=false,
+}
+\begin{document}
+\centerline{\LARGE{\textbf{CSE881 HW6}}}
+\centerline{\large{\textit{Nan Cao,\  A52871775}}}
+\centerline{\large{\textit{Oct 30th, 2016}}}
+\section*{Problem 1}
+\textbf{(a)}\\
+\Tree[. 
+[.
+[.\{p,s,t\}\\L1 ]
+[.
+[.\{p,q,s\}\\L2 ]
+[.\{p,q,t\}\\L3 ]
+[.\{p,q,r\}\\\{s,t,u\}\\L4 ]
+]
+[.\{p,r,t\}\\L5 ]
+]
+[. 
+[.\{q,s,t\}\\\{q,s,u\}\\L6 ]
+[.
+[.\{q,r,s\}\\L7 ]
+[.\{q,r,t\}\\L8 ]
+[.\{q,r,u\}\\L9 ]
+]
+]
+]
+\\
+\textbf{(b)}\\
+6 leaf nodes (L1,L2,L4,L5,L6,\{L7,L9\} ) will be hashed into.\\
+\textbf{(c)}\\
+\{p,q,r,s\},\{p,q,r,t\},\{p,q,s,t\},\{q,r,s,u\},\{q,r,t,u\},\{q,s,t,u\}\\
+\textbf{(d)}\\
+\{p,q,r,t\},\{p,q,s,t\}\\
+\section*{Problem 2}
+\textbf{(a)}\\
+ii,iv\\
+\textbf{(b)}\\
+All of them are wrong.\\
+\textbf{(c)}\\
+iii\\
+\textbf{(d)}\\
+All of them are wrong.\\
+\textbf{(e)}\\
+i)\\
+\{A,B\}\\
+ii)\\
+\{A,B\}\\
+\section*{Problem 3}
+\textbf{(b-1)}\\
+apriori.exe -s30 -n1 -ts votes.tab votes.out1.txt\\
+\textbf{(b-2)}\\
+33 frequent items were found.\\
+\textbf{(b-3)}\\
+republican (38.6207)\\
+democrat (61.3793)\\
+Democrat Party has more representatives in the data.\\
+\textbf{(b-4)}\\
+\begin{lstlisting}
+synfuels-corporation-cutback=y (34.4828)
+religious-groups-in-schools=n (34.9425)
+republican (38.6207)
+crime=n (39.0805)
+education-spending=y (39.3103)
+adoption-of-the-budget-resolution=n (39.3103)
+duty-free-exports=y (40)
+physician-fee-freeze=y (40.6897)
+aid-to-nicaraguan-contras=n (40.9195)
+anti-satellite-test-ban=n (41.8391)
+handicapped-infants=y (42.9885)
+water-project-cost-sharing=n (44.1379)
+water-project-cost-sharing=y (44.8276)
+superfund-right-to-sue=n (46.2069)
+mx-missile=n (47.3563)
+mx-missile=y (47.5862)
+el-salvador-aid=n (47.8161)
+superfund-right-to-sue=y (48.046)
+immigration=n (48.7356)
+el-salvador-aid=y (48.7356)
+immigration=y (49.6552)
+education-spending=n (53.5632)
+duty-free-exports=n (53.5632)
+handicapped-infants=n (54.2529)
+anti-satellite-test-ban=y (54.9425)
+aid-to-nicaraguan-contras=y (55.6322)
+physician-fee-freeze=n (56.7816)
+crime=y (57.0115)
+adoption-of-the-budget-resolution=y (58.1609)
+synfuels-corporation-cutback=n (60.6897)
+democrat (61.3793)
+export-administration-act-south-africa=y (61.8391)
+religious-groups-in-schools=y (62.5287)
+\end{lstlisting}
+\textbf{(c)}\\
+in\\
+democrat head\\
+republican head\\
+\textbf{(d-1)}\\
+apriori.exe -s30 -c70 -n2 -tr -R"votes.app" votes.tab vote.out3.txt\\
+\textbf{(d-2)}\\
+19 rules are generated.\\
+\textbf{(d-3)}\\
+\begin{lstlisting}
+republican----vote yes----education-spending
+democrat----vote yes----adoption-of-the-budget-resolution
+republican----vote yes----physician-fee-freeze
+democrat----vote yes----aid-to-nicaraguan-contras
+democrat----vote yes----mx-missile
+republican----vote yes----el-salvador-aid
+\end{lstlisting}
+\textbf{(d-4)}
+\begin{center}
+\textbf{The 19 rules generated in 3d}\\
+\end{center}
+\begin{tabular}{|c|c|c|}
+	\hline
+	Rule & Support & Confidence\\ \hline
+	synfuels-corporation-cutback=y	$\rightarrow$	democrat	&	34.4828	&	86	\\ \hline
+	religious-groups-in-schools=n	$\rightarrow$	democrat	&	34.9425	&	88.8158	\\ \hline
+	adoption-of-the-budget-resolution=n	$\rightarrow$	republican	&	39.3103	&	83.0409	\\ \hline
+	education-spending=y	$\rightarrow$	republican	&	39.3103	&	78.9474	\\ \hline
+	physician-fee-freeze=y	$\rightarrow$	republican	&	40.6897	&	92.0904	\\ \hline
+	aid-to-nicaraguan-contras=n	$\rightarrow$	republican	&	40.9195	&	74.7191	\\ \hline
+	mx-missile=n	$\rightarrow$	republican	&	47.3563	&	70.8738	\\ \hline
+	el-salvador-aid=y	$\rightarrow$	republican	&	48.7356	&	74.0566	\\ \hline
+	crime=n	$\rightarrow$	democrat	&	39.0805	&	98.2353	\\ \hline
+	duty-free-exports=y	$\rightarrow$	democrat	&	40	&	91.954	\\ \hline
+	handicapped-infants=y	$\rightarrow$	democrat	&	42.9885	&	83.4225	\\ \hline
+	superfund-right-to-sue=n	$\rightarrow$	democrat	&	46.2069	&	89.0547	\\ \hline
+	mx-missile=y	$\rightarrow$	democrat	&	47.5862	&	90.8213	\\ \hline
+	el-salvador-aid=n	$\rightarrow$	democrat	&	47.8161	&	96.1538	\\ \hline
+	education-spending=n	$\rightarrow$	democrat	&	53.5632	&	91.4163	\\ \hline
+	anti-satellite-test-ban=y	$\rightarrow$	democrat	&	54.9425	&	83.682	\\ \hline
+	aid-to-nicaraguan-contras=y	$\rightarrow$	democrat	&	55.6322	&	90.0826	\\ \hline
+	physician-fee-freeze=n	$\rightarrow$	democrat	&	56.7816	&	99.1903	\\ \hline
+	adoption-of-the-budget-resolution=y	$\rightarrow$	democrat	&	58.1609	&	91.3043	\\ \hline
+\end{tabular}\\
+\ \   \\
+\textbf{(e-1)}\\
+33 rules are generated.\\
+(There're 34 rules generated, but the last one is a null one.)\\
+\textbf{(e-2)}\\
+Representatives do not vote along their party lines on the following bills:\\
+\begin{lstlisting}
+religious-groups-in-school
+synfuels-corporation-cutback
+\end{lstlisting}
+\begin{center}
+	\textbf{The 33 rules generated in 3e}\\
+\end{center}
+\begin{tabular}{|c|c|c|}
+	\hline
+	Rule & Support & Confidence\\ \hline
+	religious-groups-in-schools=y $\rightarrow$ democrat & 62.5287 & 45.2206\\ \hline
+	synfuels-corporation-cutback=n $\rightarrow$ democrat & 60.6897 & 47.7273\\ \hline
+	synfuels-corporation-cutback=n $\rightarrow$ republican & 60.6897 & 52.2727\\ \hline
+	religious-groups-in-schools=y $\rightarrow$ republican & 62.5287 & 54.7794\\ \hline
+	handicapped-infants=n $\rightarrow$ republican & 54.2529 & 56.7797\\ \hline
+	immigration=y $\rightarrow$ democrat & 49.6552 & 57.4074\\ \hline
+	duty-free-exports=n $\rightarrow$ republican & 53.5632 & 60.9442\\ \hline
+	water-project-cost-sharing=y $\rightarrow$ democrat & 44.8276 & 61.5385\\ \hline
+	water-project-cost-sharing=n $\rightarrow$ democrat & 44.1379 & 61.9792\\ \hline
+	crime=y $\rightarrow$ republican & 57.0115 & 63.7097\\ \hline
+	export-administration-act-south-africa=y $\rightarrow$ democrat & 61.8391 & 64.3123\\ \hline
+	superfund-right-to-sue=y $\rightarrow$ republican & 48.046 & 65.0718\\ \hline
+	immigration=n $\rightarrow$ democrat & 48.7356 & 65.566\\ \hline
+	anti-satellite-test-ban=n $\rightarrow$ republican & 41.8391 & 67.5824\\ \hline
+	mx-missile=n $\rightarrow$ republican & 47.3563 & 70.8738\\ \hline
+	el-salvador-aid=y $\rightarrow$ republican & 48.7356 & 74.0566\\ \hline
+	aid-to-nicaraguan-contras=n $\rightarrow$ republican & 40.9195 & 74.7191\\ \hline
+	education-spending=y $\rightarrow$ republican & 39.3103 & 78.9474\\ \hline
+	adoption-of-the-budget-resolution=n $\rightarrow$ republican & 39.3103 & 83.0409\\ \hline
+	handicapped-infants=y $\rightarrow$ democrat & 42.9885 & 83.4225\\ \hline
+	anti-satellite-test-ban=y $\rightarrow$ democrat & 54.9425 & 83.682\\ \hline
+	synfuels-corporation-cutback=y $\rightarrow$ democrat & 34.4828 & 86\\ \hline
+	religious-groups-in-schools=n $\rightarrow$ democrat & 34.9425 & 88.8158\\ \hline
+	superfund-right-to-sue=n $\rightarrow$ democrat & 46.2069 & 89.0547\\ \hline
+	aid-to-nicaraguan-contras=y $\rightarrow$ democrat & 55.6322 & 90.0826\\ \hline
+	mx-missile=y $\rightarrow$ democrat & 47.5862 & 90.8213\\ \hline
+	adoption-of-the-budget-resolution=y $\rightarrow$ democrat & 58.1609 & 91.3043\\ \hline
+	education-spending=n $\rightarrow$ democrat & 53.5632 & 91.4163\\ \hline
+	duty-free-exports=y $\rightarrow$ democrat & 40 & 91.954\\ \hline
+	physician-fee-freeze=y $\rightarrow$ republican & 40.6897 & 92.0904\\ \hline
+	el-salvador-aid=n $\rightarrow$ democrat & 47.8161 & 96.1538\\ \hline
+	crime=n $\rightarrow$ democrat & 39.0805 & 98.2353\\ \hline
+	physician-fee-freeze=n $\rightarrow$ democrat & 56.7816 & 99.1903\\ \hline
+\end{tabular}
+\end{document}
